@@ -16,7 +16,7 @@ export default function RootLayout() {
           headerTitleAlign: "center",
         }}
       >
-        <Stack.Screen name="index" options={{ title: "Pace Maps" }} />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="light" />
     </>
