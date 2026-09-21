@@ -18,7 +18,7 @@ export default function RootLayout() {
       >
         <Stack.Screen name="index" options={{ title: "Pace Maps" }} />
       </Stack>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
     </>
   );
 }

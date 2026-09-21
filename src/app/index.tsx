@@ -1,10 +1,10 @@
 import { StyleSheet, View } from "react-native";
-import MapView from "./components/MapView";
+import MapScreen from "./components/MapScreen";
 
 export default function Index() {
   return (
     <View style={styles.container}>
-      <MapView />
+      <MapScreen />
     </View>
   );
 }
