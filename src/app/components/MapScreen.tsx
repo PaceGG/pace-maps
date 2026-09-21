@@ -2,9 +2,10 @@ import { useBottomModal } from "@/hooks/useBottomModal";
 import useMarkers from "@/hooks/useMarkers";
 import { MarkerData } from "@/types";
 import { useRef, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import MapView, { LongPressEvent } from "react-native-maps";
 import CustomMarker from "./markers/CustomMarker";
+import MarkerModal from "./markers/MarkerModal";
 
 export default function MapScreen() {
   const mapRef = useRef<MapView>(null);
@@ -55,16 +56,8 @@ export default function MapScreen() {
           ))}
         </MapView>
       </View>
-      <BottomModal title="Управление маркером">
-        <View style={styles.modalBody}>
-          <Text style={styles.markerName}>
-            Координаты: {selectedMarker?.coordinate.latitude.toFixed(4)},{" "}
-            {selectedMarker?.coordinate.longitude.toFixed(4)}
-          </Text>
-          <Pressable style={styles.deleteBtn} onPress={handleDeletePress}>
-            <Text style={styles.deleteBtnText}>Удалить маркер</Text>
-          </Pressable>
-        </View>
+      <BottomModal title={selectedMarker?.name || "Управление маркером"}>
+        {selectedMarker && <MarkerModal marker={selectedMarker} />}
       </BottomModal>
     </>
   );
@@ -73,23 +66,4 @@ export default function MapScreen() {
 const styles = StyleSheet.create({
   mapContainer: { height: "100%" },
   map: { height: "100%", width: "100%" },
-  modalBody: {
-    padding: 16,
-    alignItems: "center",
-  },
-  markerName: {
-    marginBottom: 16,
-    fontSize: 16,
-  },
-  deleteBtn: {
-    backgroundColor: "#ff4444",
-    padding: 12,
-    borderRadius: 8,
-    width: "100%",
-    alignItems: "center",
-  },
-  deleteBtnText: {
-    color: "white",
-    fontWeight: "bold",
-  },
 });

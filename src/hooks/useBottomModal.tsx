@@ -17,7 +17,7 @@ export function useBottomModal() {
     }: PropsWithChildren<{ title: string }>) {
       return (
         <Modal
-          animationType="fade"
+          animationType="slide"
           transparent={true}
           visible={isVisible}
           onRequestClose={close}
@@ -26,7 +26,7 @@ export function useBottomModal() {
             <Pressable style={styles.modalOverlay} onPress={close} />
             <View style={styles.modalContent}>
               <View style={styles.titleContainer}>
-                <Text>{title}</Text>
+                <Text style={styles.title}>{title}</Text>
                 <Pressable onPress={close}>
                   {/* <Entypo name="cross" size={rem(2)} /> */}
                   <Text>X</Text>
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     position: "absolute",
-    backgroundColor: "rgba(0,0,0,0.5)",
     bottom: 0,
   },
   modalContainer: {
@@ -73,4 +72,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  title: { fontSize: rem(1.5), color: colors.foreground },
 });
