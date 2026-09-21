@@ -3,7 +3,8 @@ import useMarkers from "@/hooks/useMarkers";
 import { MarkerData } from "@/types";
 import { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import MapView, { LongPressEvent } from "react-native-maps";
+import MapView, { LatLng, LongPressEvent } from "react-native-maps";
+import CreateMarkerModal from "./markers/CreateMarkerModal"; // <-- Импортируем новый компонент
 import CustomMarker from "./markers/CustomMarker";
 import MarkerModal from "./markers/MarkerModal";
 
@@ -11,6 +12,9 @@ export default function MapScreen() {
   const mapRef = useRef<MapView>(null);
   const { markers, addMarker, deleteMarker } = useMarkers();
   const [selectedMarker, setSelectedMarker] = useState<MarkerData | null>(null);
+
+  const [tempCoordinate, setTempCoordinate] = useState<LatLng | null>(null);
+
   const { BottomModal, open, close } = useBottomModal();
 
   const initialRegion = {
@@ -22,18 +26,26 @@ export default function MapScreen() {
 
   const handleLongPress = (event: LongPressEvent) => {
     const { latitude, longitude } = event.nativeEvent.coordinate;
-    addMarker({ coordinate: { latitude, longitude }, name: "new" });
+    setSelectedMarker(null);
+    setTempCoordinate({ latitude, longitude });
+    open();
   };
 
   const handleMarkerPress = (marker: MarkerData) => {
+    setTempCoordinate(null);
     setSelectedMarker(marker);
     open();
   };
 
-  const handleDeletePress = () => {
-    if (!selectedMarker?.id) return;
-    deleteMarker(selectedMarker.id);
+  const handleSaveNewMarker = (name: string, coordinate: LatLng) => {
+    addMarker({ coordinate, name });
+    closeModal();
+  };
+
+  const closeModal = () => {
     close();
+    setTempCoordinate(null);
+    setSelectedMarker(null);
   };
 
   return (
@@ -56,8 +68,23 @@ export default function MapScreen() {
           ))}
         </MapView>
       </View>
-      <BottomModal title={selectedMarker?.name || "Управление маркером"}>
-        {selectedMarker && <MarkerModal marker={selectedMarker} />}
+      <BottomModal
+        title={
+          tempCoordinate
+            ? "Добавление маркера"
+            : selectedMarker?.name || "Управление маркером"
+        }
+        onClose={closeModal}
+      >
+        {tempCoordinate ? (
+          <CreateMarkerModal
+            coordinate={tempCoordinate}
+            onSave={handleSaveNewMarker}
+            onCancel={closeModal}
+          />
+        ) : (
+          selectedMarker && <MarkerModal marker={selectedMarker} />
+        )}
       </BottomModal>
     </>
   );

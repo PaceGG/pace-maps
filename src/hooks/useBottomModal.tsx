@@ -1,8 +1,14 @@
-// import Entypo from "@expo/vector-icons/Entypo";
 import { colors } from "@/constants/colors";
 import { rem } from "@/constants/styles";
 import { PropsWithChildren, useCallback, useMemo, useState } from "react";
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 export function useBottomModal() {
   const [isVisible, setIsVisible] = useState(false);
@@ -14,7 +20,8 @@ export function useBottomModal() {
     return function ModalComponent({
       children,
       title,
-    }: PropsWithChildren<{ title: string }>) {
+      onClose = close,
+    }: PropsWithChildren<{ title: string; onClose?: () => void }>) {
       return (
         <Modal
           animationType="slide"
@@ -22,19 +29,22 @@ export function useBottomModal() {
           visible={isVisible}
           onRequestClose={close}
         >
-          <View style={styles.modalContainer}>
-            <Pressable style={styles.modalOverlay} onPress={close} />
+          <KeyboardAvoidingView
+            style={styles.modalContainer}
+            behavior="padding"
+          >
+            <Pressable style={styles.modalOverlay} onPress={onClose} />
             <View style={styles.modalContent}>
               <View style={styles.titleContainer}>
                 <Text style={styles.title}>{title}</Text>
-                <Pressable onPress={close}>
+                <Pressable onPress={onClose}>
                   {/* <Entypo name="cross" size={rem(2)} /> */}
                   <Text>X</Text>
                 </Pressable>
               </View>
               {children}
             </View>
-          </View>
+          </KeyboardAvoidingView>
         </Modal>
       );
     };
@@ -45,10 +55,7 @@ export function useBottomModal() {
 
 const styles = StyleSheet.create({
   modalOverlay: {
-    height: "100%",
-    width: "100%",
-    position: "absolute",
-    bottom: 0,
+    ...StyleSheet.absoluteFill,
   },
   modalContainer: {
     flex: 1,
@@ -59,6 +66,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     borderTopRightRadius: rem(1.1),
     borderTopLeftRadius: rem(1.1),
+    // Рекомендуется задать максимальную высоту, чтобы контент не улетал за пределы экрана при открытой клавиатуре
+    maxHeight: "90%",
   },
   titleContainer: {
     backgroundColor: colors.background,
