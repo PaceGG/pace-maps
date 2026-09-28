@@ -40,7 +40,7 @@ export default function MarkerModal({ marker, onDelete }: MarkerModalProps) {
     <View style={styles.container}>
       <ShortImagesList
         markerId={marker.id}
-        images={images}
+        images={images.toReversed()}
         handleImageAdded={handleImageAdded}
       />
       <Button

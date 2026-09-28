@@ -1,7 +1,10 @@
+import { colors } from "@/constants/colors";
 import { rem } from "@/constants/styles";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Image } from "expo-image";
 import { StyleSheet, View } from "react-native";
 import AddImageButton from "./AddImageButton";
+import ImageButton from "./ImageButton";
 
 interface ShortImagesListProps {
   markerId: string;
@@ -17,16 +20,23 @@ export default function ShortImagesList({
   return (
     <View style={styles.container}>
       <AddImageButton markerId={markerId} onImageAdded={handleImageAdded} />
-      {images
-        .toReversed()
-        .slice(0, 2)
-        .map((uri, index) => (
-          <Image
-            key={index}
-            source={{ uri }}
-            style={{ flex: 1, aspectRatio: 1, borderRadius: rem(1) }}
-          />
-        ))}
+      {images.slice(0, 2).map((uri, index) => (
+        <Image
+          key={index}
+          source={{ uri }}
+          style={{ flex: 1, aspectRatio: 1, borderRadius: rem(1) }}
+        />
+      ))}
+      <ImageButton
+        onPress={() => console.log("more")}
+        backgroundImage={images.at(-1)}
+      >
+        <MaterialCommunityIcons
+          name="dots-grid"
+          size={rem(4)}
+          color={colors.foreground}
+        />
+      </ImageButton>
     </View>
   );
 }

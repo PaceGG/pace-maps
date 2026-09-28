@@ -2,10 +2,9 @@ import ImageStorage from "@/app/storage/images";
 import { colors } from "@/constants/colors";
 import { rem } from "@/constants/styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
-import { Alert, StyleSheet, View } from "react-native";
-import Button from "../UI/Button";
+import { Alert } from "react-native";
+import ImageButton from "./ImageButton";
 
 interface AddImageButtonProps {
   markerId: string;
@@ -43,35 +42,12 @@ export default function AddImageButton({
   };
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("@/assets/images/image-mock.jpg")}
-        style={StyleSheet.absoluteFill}
-        contentFit="cover"
-        blurRadius={20}
+    <ImageButton onPress={handleAddImage}>
+      <MaterialCommunityIcons
+        name="file-image-plus"
+        size={rem(4)}
+        color={colors.foreground}
       />
-      <Button onPress={handleAddImage}>
-        <MaterialCommunityIcons
-          name="file-image-plus"
-          size={rem(4)}
-          color={colors.foreground}
-        />
-      </Button>
-    </View>
+    </ImageButton>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    aspectRatio: 1,
-    borderRadius: rem(1),
-    overflow: "hidden",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  containerBackgroundImage: {
-    borderRadius: rem(1),
-    filter: "",
-  },
-});
