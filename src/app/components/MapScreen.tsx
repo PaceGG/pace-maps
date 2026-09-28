@@ -17,10 +17,11 @@ import { colors } from "@/constants/colors";
 import CreateMarkerModal from "./markers/CreateMarkerModal";
 import CustomMarker from "./markers/CustomMarker";
 import MarkerModal from "./markers/MarkerModal";
+import MarkerTitle from "./markers/MarkerModalTitle";
 
 export default function MapScreen() {
   const mapRef = useRef<MapView>(null);
-  const { markers, addMarker, deleteMarker } = useMarkers();
+  const { markers, addMarker, deleteMarker, renameMarker } = useMarkers();
   const [selectedMarker, setSelectedMarker] = useState<MarkerData | null>(null);
   const [tempCoordinate, setTempCoordinate] = useState<LatLng | null>(null);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
@@ -90,6 +91,10 @@ export default function MapScreen() {
     setSelectedMarker(null);
   };
 
+  const handleRenameMarker = (markerId: string, newName: string) => {
+    renameMarker(markerId, newName);
+  };
+
   return (
     <>
       <View style={styles.mapContainer}>
@@ -130,9 +135,16 @@ export default function MapScreen() {
 
       <BottomModal
         title={
-          tempCoordinate
-            ? "Добавление маркера"
-            : selectedMarker?.name || "Управление маркером"
+          tempCoordinate ? (
+            "Добавление маркера"
+          ) : selectedMarker ? (
+            <MarkerTitle
+              marker={selectedMarker}
+              onRename={handleRenameMarker}
+            />
+          ) : (
+            "Управление маркером"
+          )
         }
         onClose={closeModal}
       >

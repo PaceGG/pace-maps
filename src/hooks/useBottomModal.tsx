@@ -1,7 +1,13 @@
 import { colors } from "@/constants/colors";
 import { rem } from "@/constants/styles";
 import { Entypo } from "@expo/vector-icons";
-import { PropsWithChildren, useCallback, useMemo, useState } from "react";
+import {
+  PropsWithChildren,
+  ReactNode,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import {
   KeyboardAvoidingView,
   Modal,
@@ -22,7 +28,7 @@ export function useBottomModal() {
       children,
       title,
       onClose = close,
-    }: PropsWithChildren<{ title: string; onClose?: () => void }>) {
+    }: PropsWithChildren<{ title: ReactNode; onClose?: () => void }>) {
       return (
         <Modal
           animationType="slide"

@@ -29,6 +29,14 @@ export default function useMarkers() {
     return markers.find((marker) => marker.id === id);
   };
 
+  const renameMarker = (markerId: string, newName: string) => {
+    const updatedMarkers = markers.map((marker) =>
+      marker.id === markerId ? { ...marker, name: newName } : marker,
+    );
+    setMarkers(updatedMarkers);
+    MarkerStorage.saveMarkers(updatedMarkers);
+  };
+
   const deleteMarker = (id: string) => {
     const updatedMarkers = markers.filter((marker) => marker.id !== id);
     setMarkers(updatedMarkers);
@@ -36,5 +44,5 @@ export default function useMarkers() {
     console.log("del");
   };
 
-  return { markers, addMarker, deleteMarker, getMarkerById };
+  return { markers, addMarker, deleteMarker, getMarkerById, renameMarker };
 }
