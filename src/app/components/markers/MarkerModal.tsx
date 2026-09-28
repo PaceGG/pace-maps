@@ -7,9 +7,14 @@ import Button from "../UI/Button";
 
 interface MarkerModalProps {
   marker: MarkerData;
+  onDelete: (id: string) => void;
 }
 
-export default function MarkerModal({ marker }: MarkerModalProps) {
+export default function MarkerModal({ marker, onDelete }: MarkerModalProps) {
+  const handleDeleteClick = () => {
+    if (marker.id) onDelete(marker.id);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{marker.id}</Text>
@@ -17,6 +22,7 @@ export default function MarkerModal({ marker }: MarkerModalProps) {
         variant="outlined"
         color={colors.error}
         icon={{ icon: <MaterialIcons name="delete" /> }}
+        onPress={handleDeleteClick}
       >
         Удалить маркер
       </Button>

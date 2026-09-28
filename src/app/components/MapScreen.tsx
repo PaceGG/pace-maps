@@ -143,7 +143,15 @@ export default function MapScreen() {
             onCancel={closeModal}
           />
         ) : (
-          selectedMarker && <MarkerModal marker={selectedMarker} />
+          selectedMarker && (
+            <MarkerModal
+              marker={selectedMarker}
+              onDelete={(id) => {
+                deleteMarker(id);
+                closeModal();
+              }}
+            />
+          )
         )}
       </BottomModal>
     </>
