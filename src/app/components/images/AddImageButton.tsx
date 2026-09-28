@@ -63,8 +63,8 @@ export default function AddImageButton({
 
 const styles = StyleSheet.create({
   container: {
-    width: 200,
-    height: 200,
+    flex: 1,
+    aspectRatio: 1,
     borderRadius: rem(1),
     overflow: "hidden",
     justifyContent: "center",

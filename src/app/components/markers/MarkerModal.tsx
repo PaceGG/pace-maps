@@ -3,11 +3,10 @@ import { colors } from "@/constants/colors";
 import { rem } from "@/constants/styles";
 import { MarkerData } from "@/types";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { Image } from "expo-image";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Button from "../UI/Button";
-import AddImageButton from "../images/AddImageButton";
+import ShortImagesList from "../images/ShortImagesList";
 
 interface MarkerModalProps {
   marker: MarkerData;
@@ -39,15 +38,11 @@ export default function MarkerModal({ marker, onDelete }: MarkerModalProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{marker.id}</Text>
-      <AddImageButton markerId={marker.id} onImageAdded={handleImageAdded} />
-      {images.map((uri, index) => (
-        <Image
-          key={index}
-          source={{ uri }}
-          style={{ width: 200, height: 200, borderRadius: rem(1) }}
-        />
-      ))}
+      <ShortImagesList
+        markerId={marker.id}
+        images={images}
+        handleImageAdded={handleImageAdded}
+      />
       <Button
         variant="outlined"
         color={colors.error}
@@ -61,6 +56,6 @@ export default function MarkerModal({ marker, onDelete }: MarkerModalProps) {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: rem(1) },
+  container: { padding: rem(1), gap: rem(1) },
   text: { color: colors.foreground },
 });
