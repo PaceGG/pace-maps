@@ -31,7 +31,7 @@ export default function ShortImagesList({
         <Image
           key={index}
           source={{ uri }}
-          style={{ flex: 1, aspectRatio: 1, borderRadius: rem(1) }}
+          style={{ flex: 1, borderRadius: rem(1) }}
         />
       ))}
       <ImageButton onPress={handleRedirect} backgroundImage={images.at(-1)}>
@@ -48,6 +48,7 @@ export default function ShortImagesList({
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    aspectRatio: 4,
     flexDirection: "row",
     gap: rem(0.5),
   },
