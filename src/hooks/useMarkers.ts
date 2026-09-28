@@ -1,3 +1,4 @@
+import ImageStorage from "@/app/storage/images";
 import MarkerStorage from "@/app/storage/markers";
 import { MarkerData } from "@/types";
 import { useEffect, useState } from "react";
@@ -41,7 +42,7 @@ export default function useMarkers() {
     const updatedMarkers = markers.filter((marker) => marker.id !== id);
     setMarkers(updatedMarkers);
     MarkerStorage.saveMarkers(updatedMarkers);
-    console.log("del");
+    ImageStorage.deleteAllImagesForMarker(id);
   };
 
   return { markers, addMarker, deleteMarker, getMarkerById, renameMarker };
