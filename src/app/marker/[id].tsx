@@ -1,9 +1,10 @@
+import { colors } from "@/constants/colors";
 import { rem } from "@/constants/styles";
 import useMarkers from "@/hooks/useMarkers";
 import { MarkerData } from "@/types";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ImagesList from "../components/images/ImagesList";
 import ImageStorage from "../storage/images";
 
@@ -42,7 +43,6 @@ export default function MarkerDetailsScreen() {
   return (
     <>
       <Stack.Screen options={{ title: marker?.name ?? "Загрузка..." }} />
-      <Text>{id}</Text>
       <View style={styles.container}>
         <ImagesList
           images={images}
@@ -56,5 +56,10 @@ export default function MarkerDetailsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flexDirection: "row", padding: rem(0.5) },
+  container: {
+    flexDirection: "row",
+    padding: rem(0.5),
+    backgroundColor: colors.background,
+    height: "100%",
+  },
 });
