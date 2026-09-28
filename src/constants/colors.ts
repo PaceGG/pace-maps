@@ -3,4 +3,5 @@ export const colors = {
   foreground: "#eee",
   background: "#222",
   marker: "#ec4545",
+  error: "#ff2b2b",
 };
