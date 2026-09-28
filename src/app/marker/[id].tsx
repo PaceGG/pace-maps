@@ -38,6 +38,7 @@ export default function MarkerDetailsScreen() {
 
   const handleImageDeleted = (delUri: string) => {
     setImages((prev) => prev.filter((uri) => uri !== delUri));
+    ImageStorage.deleteImage(id, delUri);
   };
 
   return (

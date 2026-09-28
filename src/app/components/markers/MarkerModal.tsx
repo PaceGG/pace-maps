@@ -3,7 +3,8 @@ import { colors } from "@/constants/colors";
 import { rem } from "@/constants/styles";
 import { MarkerData } from "@/types";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Button from "../UI/Button";
 import ShortImagesList from "../images/ShortImagesList";
@@ -14,18 +15,27 @@ interface MarkerModalProps {
 }
 
 export default function MarkerModal({ marker, onDelete }: MarkerModalProps) {
-  if (!marker.id) return;
-
   const [images, setImages] = useState<string[]>([]);
 
-  useEffect(() => {
-    const loadImages = async () => {
-      if (!marker.id) return;
-      const savedImages = await ImageStorage.getImagesForMarker(marker.id);
-      setImages(savedImages);
-    };
-    loadImages();
-  }, [marker.id]);
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+
+      const loadImages = async () => {
+        if (!marker.id) return;
+        const savedImages = await ImageStorage.getImagesForMarker(marker.id);
+        if (isActive) {
+          setImages(savedImages);
+        }
+      };
+
+      loadImages();
+
+      return () => {
+        isActive = false;
+      };
+    }, [marker.id]),
+  );
 
   const handleImageAdded = (newUri: string) => {
     console.log(newUri);
