@@ -14,6 +14,7 @@ export default function RootLayout() {
             color: colors.foreground,
           },
           headerTitleAlign: "center",
+          headerTintColor: colors.foreground,
         }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />

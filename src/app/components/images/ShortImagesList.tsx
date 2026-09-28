@@ -2,6 +2,7 @@ import { colors } from "@/constants/colors";
 import { rem } from "@/constants/styles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import AddImageButton from "./AddImageButton";
 import ImageButton from "./ImageButton";
@@ -17,6 +18,12 @@ export default function ShortImagesList({
   images,
   handleImageAdded,
 }: ShortImagesListProps) {
+  const router = useRouter();
+
+  const handleRedirect = () => {
+    router.push({ pathname: "/marker/[id]", params: { id: markerId } });
+  };
+
   return (
     <View style={styles.container}>
       <AddImageButton markerId={markerId} onImageAdded={handleImageAdded} />
@@ -27,10 +34,7 @@ export default function ShortImagesList({
           style={{ flex: 1, aspectRatio: 1, borderRadius: rem(1) }}
         />
       ))}
-      <ImageButton
-        onPress={() => console.log("more")}
-        backgroundImage={images.at(-1)}
-      >
+      <ImageButton onPress={handleRedirect} backgroundImage={images.at(-1)}>
         <MaterialCommunityIcons
           name="dots-grid"
           size={rem(3)}

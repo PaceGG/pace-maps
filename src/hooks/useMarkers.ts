@@ -25,6 +25,10 @@ export default function useMarkers() {
     MarkerStorage.saveMarkers(updatedMarkers);
   };
 
+  const getMarkerById = (id: string): MarkerData | undefined => {
+    return markers.find((marker) => marker.id === id);
+  };
+
   const deleteMarker = (id: string) => {
     const updatedMarkers = markers.filter((marker) => marker.id !== id);
     setMarkers(updatedMarkers);
@@ -32,5 +36,5 @@ export default function useMarkers() {
     console.log("del");
   };
 
-  return { markers, addMarker, deleteMarker };
+  return { markers, addMarker, deleteMarker, getMarkerById };
 }
