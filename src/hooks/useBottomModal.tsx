@@ -1,5 +1,6 @@
 import { colors } from "@/constants/colors";
 import { rem } from "@/constants/styles";
+import { Entypo } from "@expo/vector-icons";
 import { PropsWithChildren, useCallback, useMemo, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -38,8 +39,11 @@ export function useBottomModal() {
               <View style={styles.titleContainer}>
                 <Text style={styles.title}>{title}</Text>
                 <Pressable onPress={onClose}>
-                  {/* <Entypo name="cross" size={rem(2)} /> */}
-                  <Text>X</Text>
+                  <Entypo
+                    name="cross"
+                    size={rem(2)}
+                    color={colors.foreground}
+                  />
                 </Pressable>
               </View>
               {children}
@@ -66,7 +70,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     borderTopRightRadius: rem(1.1),
     borderTopLeftRadius: rem(1.1),
-    // Рекомендуется задать максимальную высоту, чтобы контент не улетал за пределы экрана при открытой клавиатуре
     maxHeight: "90%",
   },
   titleContainer: {
