@@ -4,6 +4,7 @@ import { MarkerData } from "@/types";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { StyleSheet, Text, View } from "react-native";
 import Button from "../UI/Button";
+import AddImageButton from "../images/AddImageButton";
 
 interface MarkerModalProps {
   marker: MarkerData;
@@ -18,6 +19,7 @@ export default function MarkerModal({ marker, onDelete }: MarkerModalProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{marker.id}</Text>
+      <AddImageButton />
       <Button
         variant="outlined"
         color={colors.error}

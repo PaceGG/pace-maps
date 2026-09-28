@@ -22,7 +22,7 @@ export interface ButtonIcon {
 }
 
 interface ButtonProps {
-  children: ReactNode;
+  children?: ReactNode;
   onPress?: () => void;
   variant?: ButtonVariant;
   color?: string;
@@ -90,16 +90,18 @@ export default function Button({
                         ? buttonColor
                         : colors.foreground,
               })}
-            <Text
-              style={[
-                styles.buttonLabel,
-                variant === "contained" && styles.buttonLabelContained,
-                variant === "outlined" && { color: buttonColor },
-                pressed && styles.buttonLabelPressed,
-              ]}
-            >
-              {children}
-            </Text>
+            {children && (
+              <Text
+                style={[
+                  styles.buttonLabel,
+                  variant === "contained" && styles.buttonLabelContained,
+                  variant === "outlined" && { color: buttonColor },
+                  pressed && styles.buttonLabelPressed,
+                ]}
+              >
+                {children}
+              </Text>
+            )}
           </>
         )}
       </Pressable>
