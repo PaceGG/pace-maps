@@ -35,6 +35,10 @@ export default function MarkerDetailsScreen() {
     setImages((prev) => [...prev, newUri]);
   };
 
+  const handleImageDeleted = (delUri: string) => {
+    setImages((prev) => prev.filter((uri) => uri !== delUri));
+  };
+
   return (
     <>
       <Stack.Screen options={{ title: marker?.name ?? "Загрузка..." }} />
@@ -44,6 +48,7 @@ export default function MarkerDetailsScreen() {
           images={images}
           markerId={id}
           handleImageAdded={handleImageAdded}
+          handleImageDeleted={handleImageDeleted}
         />
       </View>
     </>
