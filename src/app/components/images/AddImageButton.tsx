@@ -45,7 +45,7 @@ export default function AddImageButton({
     <ImageButton onPress={handleAddImage}>
       <MaterialCommunityIcons
         name="file-image-plus"
-        size={rem(4)}
+        size={rem(3)}
         color={colors.foreground}
       />
     </ImageButton>

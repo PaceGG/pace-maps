@@ -33,7 +33,7 @@ export default function ShortImagesList({
       >
         <MaterialCommunityIcons
           name="dots-grid"
-          size={rem(4)}
+          size={rem(3)}
           color={colors.foreground}
         />
       </ImageButton>
