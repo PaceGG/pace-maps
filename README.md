@@ -1,56 +1,109 @@
-# Welcome to your Expo app 👋
+# React Native Map & Image App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Мобильное приложение, разработанное с использованием React Native и Expo, которое позволяет пользователям взаимодействовать с картой, добавлять пользовательские маркеры и привязывать к ним фотографии.
 
-## Get started
+Проект создан в рамках практического задания по изучению основ мобильной разработки, типизации с TypeScript и файловой маршрутизации Expo Router.
 
-1. Install dependencies
+## Функциональность
 
-   ```bash
+- **Интерактивная карта:** Отображение карты на весь экран с использованием `react-native-maps`.
+
+- **Отслеживание геолокации:** Определение текущего местоположения пользователя, отображение его на карте и возможность центрирования камеры на текущих координатах.
+
+- **Добавление маркеров:** Создание новых маркеров на карте с помощью долгого нажатия (long press).
+
+- **Детализация локаций:** Переход на отдельный экран деталей при клике на маркер.
+
+- **Галерея изображений:** Возможность прикреплять фотографии к конкретным маркерам (используя галерею устройства через `expo-image-picker`).
+
+- **Управление медиа:** Удаление ранее добавленных фотографий.
+
+- **Обработка ошибок:** Грамотная обработка сбоев при загрузке карты, выборе изображений и навигации.
+
+## Технологический стек
+
+- **Фреймворк:** [React Native](https://reactnative.dev/)
+
+- **Инструментарий:** [Expo](https://expo.dev/)
+
+- **Язык:** [TypeScript](https://www.typescriptlang.org/)
+
+- **Навигация:** [Expo Router](https://docs.expo.dev/router/introduction/) (файловая маршрутизация)
+
+- **Карты:** [React Native Maps](https://github.com/react-native-maps/react-native-maps)
+
+- **Геолокация:** [Expo Location](https://docs.expo.dev/versions/latest/sdk/location/)
+
+- **Работа с медиа:** [Expo Image Picker](https://docs.expo.dev/versions/latest/sdk/imagepicker/)
+
+## Инструкции по установке и запуску
+
+### Предварительные требования
+
+1. Установленный **Node.js** (последняя LTS-версия).
+
+2. Установленное приложение **Expo Go** на вашем мобильном устройстве (iOS / Android) для тестирования.
+
+3. Git для клонирования репозитория.
+
+### Запуск проекта
+
+1. Склонируйте репозиторий:
+
+   ```
+   git clone https://github.com/PaceGG/pace-maps
+   cd pace-maps
+
+   ```
+
+2. Установите зависимости:
+
+   ```
    npm install
+   # или
+   yarn install
+
    ```
 
-2. Start the app
+3. Запустите сервер разработки Expo:
 
-   ```bash
+   ```
    npx expo start
+
    ```
 
-In the output, you'll find options to open the app in a
+4. Откройте приложение **Expo Go** на телефоне и отсканируйте QR-код, появившийся в терминале (или в браузере).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Принятые решения при реализации
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **Разделение ответственности (Separation of Concerns):** Пользовательский интерфейс разбит на логические модули (`images`, `markers`, `UI`), что делает код масштабируемым и легко читаемым.
 
-## Get a fresh project
+- **Кастомные хуки:** Вынесение сложной логики и управления состоянием в отдельные хуки (`useMarkers.ts`, `useBottomModal.tsx`) для очистки компонентов от избыточного кода.
 
-When you're ready, run:
+- **Инкапсуляция хранилища:** Взаимодействие с `AsyncStorage` вынесено в изолированные модули в папке `storage/`, что упрощает потенциальную миграцию на другие решения для хранения данных в будущем.
 
-```bash
-npm run reset-project
-```
+- **Организация навигации:** Бесшовная маршрутизация реализована через Expo Router, обеспечивая корректный переход от главного экрана (`app/index.tsx`) к деталям конкретного места (`app/marker/[id].tsx`).
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- **Типизация (TypeScript):** Вынесена в отдельный файл `types.ts`. Созданы строгие интерфейсы для сущностей `Marker`, `Image` и параметров маршрутизации, что минимизировало количество runtime-ошибок.
 
-### Other setup steps
+- **Хранение состояния:** Данные о маркерах и привязанных к ним изображениях хранятся на верхнем уровне (в глобальном контексте или стейте корневого layout), что позволяет легко передавать актуальные данные между экраном карты и экранами деталей без prop drilling.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+- **Навигация:** Использован современный подход с Expo Router. Экран деталей маркера реализован как динамический маршрут `app/marker/[id].tsx`, что делает логику URL-подобной и интуитивно понятной.
 
-## Learn more
+- **Обработка ошибок:** Внедрены блоки `try/catch` при вызове асинхронных методов (например, `launchImageLibraryAsync`). Для информирования пользователя используются стандартные `Alert` API.
 
-To learn more about developing your project with Expo, look at the following resources:
+## Дополнительные реализованные функции
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- **Кастомный дизайн маркеров:** Замена стандартных пинов на карте персонализированными компонентами (`CustomMarker.tsx`).
 
-## Join the community
+- **Модальные окна:** Реализованы плавные нижние модальные окна для создания и просмотра информации о маркерах (`CreateMarkerModal.tsx`, `MarkerModal.tsx`), что значительно улучшает нативный UX.
 
-Join our community of developers creating universal apps.
+- **Продвинутое отображение галереи:** Разделение списков изображений на превью и полноценную галерею (`ShortImagesList.tsx` и `ImagesList.tsx`).
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## ⚠️ Известные проблемы и ограничения
+
+- **Разрешения (Permissions):** Если пользователь перманентно запретит доступ к галерее, потребуется вручную отправлять его в настройки устройства (функционал deep-linking в настройки пока не реализован).
+
+- Все изображения и маркеры сохраняются локально на устройстве; синхронизация с облачным бэкендом в данной версии не предусмотрена.
+
+- **Платформенные отличия:** Карта может использовать Apple Maps на iOS и Google Maps на Android по умолчанию.
