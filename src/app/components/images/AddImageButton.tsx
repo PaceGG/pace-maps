@@ -1,13 +1,13 @@
-import ImageStorage from "@/app/storage/images";
 import { colors } from "@/constants/colors";
 import { rem } from "@/constants/styles";
+import { useDatabase } from "@/contexts/DatabaseContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { Alert } from "react-native";
 import ImageButton from "./ImageButton";
 
 interface AddImageButtonProps {
-  markerId: string;
+  markerId: number;
   onImageAdded: (newUri: string) => void;
 }
 
@@ -15,6 +15,8 @@ export default function AddImageButton({
   markerId,
   onImageAdded,
 }: AddImageButtonProps) {
+  const { addImage } = useDatabase();
+
   const handleAddImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -26,10 +28,11 @@ export default function AddImageButton({
       if (!result.canceled) {
         const tempUri = result.assets[0].uri;
 
-        const permanentUri = await ImageStorage.saveImageForMarker(
-          markerId,
-          tempUri,
-        );
+        // const permanentUri = await ImageStorage.saveImageForMarker(
+        //   markerId,
+        //   tempUri,
+        // );
+        const permanentUri = await addImage(markerId, tempUri);
 
         if (permanentUri && onImageAdded) {
           onImageAdded(permanentUri);

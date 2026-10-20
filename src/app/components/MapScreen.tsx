@@ -1,5 +1,4 @@
 import { useBottomModal } from "@/hooks/useBottomModal";
-import useMarkers from "@/hooks/useMarkers";
 import { MarkerData } from "@/types";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
@@ -14,6 +13,7 @@ import {
 import MapView, { LatLng, LongPressEvent } from "react-native-maps";
 
 import { colors } from "@/constants/colors";
+import { useDatabase } from "@/contexts/DatabaseContext";
 import CreateMarkerModal from "./markers/CreateMarkerModal";
 import CustomMarker from "./markers/CustomMarker";
 import MarkerModal from "./markers/MarkerModal";
@@ -21,7 +21,7 @@ import MarkerTitle from "./markers/MarkerModalTitle";
 
 export default function MapScreen() {
   const mapRef = useRef<MapView>(null);
-  const { markers, addMarker, deleteMarker, renameMarker } = useMarkers();
+  const { markers, addMarker, deleteMarker, renameMarker } = useDatabase();
   const [selectedMarker, setSelectedMarker] = useState<MarkerData | null>(null);
   const [tempCoordinate, setTempCoordinate] = useState<LatLng | null>(null);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
@@ -81,7 +81,7 @@ export default function MapScreen() {
   };
 
   const handleSaveNewMarker = (name: string, coordinate: LatLng) => {
-    addMarker({ coordinate, name });
+    addMarker(coordinate.latitude, coordinate.longitude, name);
     closeModal();
   };
 
@@ -91,7 +91,7 @@ export default function MapScreen() {
     setSelectedMarker(null);
   };
 
-  const handleRenameMarker = (markerId: string, newName: string) => {
+  const handleRenameMarker = (markerId: number, newName: string) => {
     renameMarker(markerId, newName);
   };
 

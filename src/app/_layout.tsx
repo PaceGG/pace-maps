@@ -1,4 +1,5 @@
 import { colors } from "@/constants/colors";
+import { DatabaseProvider } from "@/contexts/DatabaseContext";
 import { initDatabase } from "@/database/schema";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -19,7 +20,7 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <>
+    <DatabaseProvider>
       <Stack
         screenOptions={{
           headerStyle: {
@@ -35,6 +36,6 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="light" />
-    </>
+    </DatabaseProvider>
   );
 }

@@ -8,7 +8,7 @@ import AddImageButton from "./AddImageButton";
 import ImageButton from "./ImageButton";
 
 interface ShortImagesListProps {
-  markerId: string;
+  markerId: number;
   images: string[]; // uri
   handleImageAdded: (imageUri: string) => void;
 }

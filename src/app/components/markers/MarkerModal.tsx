@@ -1,6 +1,6 @@
-import ImageStorage from "@/app/storage/images";
 import { colors } from "@/constants/colors";
 import { rem } from "@/constants/styles";
+import { useDatabase } from "@/contexts/DatabaseContext";
 import { MarkerData } from "@/types";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useFocusEffect } from "expo-router";
@@ -11,10 +11,11 @@ import ShortImagesList from "../images/ShortImagesList";
 
 interface MarkerModalProps {
   marker: MarkerData;
-  onDelete: (id: string) => void;
+  onDelete: (id: number) => void;
 }
 
 export default function MarkerModal({ marker, onDelete }: MarkerModalProps) {
+  const { getMarkerImages } = useDatabase();
   const [images, setImages] = useState<string[]>([]);
 
   useFocusEffect(
@@ -23,9 +24,11 @@ export default function MarkerModal({ marker, onDelete }: MarkerModalProps) {
 
       const loadImages = async () => {
         if (!marker.id) return;
-        const savedImages = await ImageStorage.getImagesForMarker(marker.id);
+        // const savedImages = await ImageStorage.getImagesForMarker(marker.id);
+        const savedImages = await getMarkerImages(marker.id);
+        const savedImagesUri = savedImages.map((img) => img.uri);
         if (isActive) {
-          setImages(savedImages);
+          setImages(savedImagesUri);
         }
       };
 

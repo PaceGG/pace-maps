@@ -14,7 +14,7 @@ import {
 
 interface MarkerTitleProps {
   marker: MarkerData;
-  onRename: (markerId: string, newName: string) => void;
+  onRename: (markerId: number, newName: string) => void;
 }
 
 export default function MarkerTitle({ marker, onRename }: MarkerTitleProps) {
