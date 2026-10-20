@@ -4,4 +4,5 @@ export interface MarkerData {
   id?: string;
   coordinate: LatLng;
   name: string;
+  createdAt: string;
 }
