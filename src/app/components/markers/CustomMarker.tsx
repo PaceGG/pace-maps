@@ -10,7 +10,10 @@ export interface MarkerProps {
 
 export default function CustomMarker({ marker, onPress }: MarkerProps) {
   return (
-    <Marker coordinate={marker.coordinate} onPress={onPress}>
+    <Marker
+      coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+      onPress={onPress}
+    >
       <View style={styles.container}>
         <Text style={styles.text}>{marker.name}</Text>
       </View>
